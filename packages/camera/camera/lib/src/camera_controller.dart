@@ -488,12 +488,12 @@ class CameraController extends ValueNotifier<CameraValue> {
     assert(defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS);
     _throwIfNotInitialized('startImageStream');
-    if (value.isRecordingVideo) {
-      throw CameraException(
-        'A video recording is already started.',
-        'startImageStream was called while a video is being recorded.',
-      );
-    }
+    // if (value.isRecordingVideo) {
+    //   throw CameraException(
+    //     'A video recording is already started.',
+    //     'startImageStream was called while a video is being recorded.',
+    //   );
+    // }
     if (value.isStreamingImages) {
       throw CameraException(
         'A camera has started streaming images.',
@@ -550,12 +550,12 @@ class CameraController extends ValueNotifier<CameraValue> {
   Future<void> startVideoRecording(
       {onLatestImageAvailable? onAvailable}) async {
     _throwIfNotInitialized('startVideoRecording');
-    if (value.isRecordingVideo) {
-      throw CameraException(
-        'A video recording is already started.',
-        'startVideoRecording was called when a recording is already started.',
-      );
-    }
+    // if (value.isRecordingVideo) {
+    //   throw CameraException(
+    //     'A video recording is already started.',
+    //     'startVideoRecording was called when a recording is already started.',
+    //   );
+    // }
 
     void Function(CameraImageData image)? streamCallback;
     if (onAvailable != null) {
