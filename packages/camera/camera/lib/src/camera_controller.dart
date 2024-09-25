@@ -550,12 +550,12 @@ class CameraController extends ValueNotifier<CameraValue> {
   Future<void> startVideoRecording(
       {onLatestImageAvailable? onAvailable}) async {
     _throwIfNotInitialized('startVideoRecording');
-    // if (value.isRecordingVideo) {
-    //   throw CameraException(
-    //     'A video recording is already started.',
-    //     'startVideoRecording was called when a recording is already started.',
-    //   );
-    // }
+    if (value.isRecordingVideo) {
+      throw CameraException(
+        'A video recording is already started.',
+        'startVideoRecording was called when a recording is already started.',
+      );
+    }
 
     void Function(CameraImageData image)? streamCallback;
     if (onAvailable != null) {
@@ -567,6 +567,12 @@ class CameraController extends ValueNotifier<CameraValue> {
     try {
       await CameraPlatform.instance.startVideoCapturing(
           VideoCaptureOptions(_cameraId, streamCallback: streamCallback));
+      _imageStreamSubscription =
+          CameraPlatform.instance.onStreamedFrameAvailable(_cameraId).listen((CameraImageData imageData) {
+        if (onAvailable != null) {
+          onAvailable(CameraImage.fromPlatformInterface(imageData));
+        }
+      });
       value = value.copyWith(
           isRecordingVideo: true,
           isRecordingPaused: false,
