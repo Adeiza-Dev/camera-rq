@@ -567,12 +567,6 @@ class CameraController extends ValueNotifier<CameraValue> {
     try {
       await CameraPlatform.instance.startVideoCapturing(
           VideoCaptureOptions(_cameraId, streamCallback: streamCallback));
-      _imageStreamSubscription =
-          CameraPlatform.instance.onStreamedFrameAvailable(_cameraId).listen((CameraImageData imageData) {
-        if (onAvailable != null) {
-          onAvailable(CameraImage.fromPlatformInterface(imageData));
-        }
-      });
       value = value.copyWith(
           isRecordingVideo: true,
           isRecordingPaused: false,

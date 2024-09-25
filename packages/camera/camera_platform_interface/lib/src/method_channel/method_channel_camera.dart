@@ -253,10 +253,13 @@ class MethodChannelCamera extends CameraPlatform {
       _channel.invokeMethod<void>('prepareForVideoRecording');
 
   @override
-  Future<void> startVideoRecording(int cameraId,
-      {Duration? maxVideoDuration}) async {
+  Future<void> startVideoRecording(
+    int cameraId, {
+    Duration? maxVideoDuration,
+  }) async {
     return startVideoCapturing(
-        VideoCaptureOptions(cameraId, maxDuration: maxVideoDuration));
+      VideoCaptureOptions(cameraId, maxDuration: maxVideoDuration),
+    );
   }
 
   @override
@@ -307,8 +310,10 @@ class MethodChannelCamera extends CameraPlatform {
       );
 
   @override
-  Stream<CameraImageData> onStreamedFrameAvailable(int cameraId,
-      {CameraImageStreamOptions? options}) {
+  Stream<CameraImageData> onStreamedFrameAvailable(
+    int cameraId, {
+    CameraImageStreamOptions? options,
+  }) {
     _installStreamController(onListen: _onFrameStreamListen);
     return _frameStreamController!.stream;
   }
@@ -345,8 +350,9 @@ class MethodChannelCamera extends CameraPlatform {
           throw CameraException(e.code, e.message);
         }
       }
-      _frameStreamController!
-          .add(cameraImageFromPlatformData(imageData as Map<dynamic, dynamic>));
+      _frameStreamController!.add(
+        cameraImageFromPlatformData(imageData as Map<dynamic, dynamic>),
+      );
     });
   }
 
